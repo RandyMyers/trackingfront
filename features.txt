@@ -1,0 +1,53 @@
+Auth Components
+/components/Auth/Login.js
+/components/Auth/Signup.js
+/components/Auth/ForgotPassword.js
+Package Components
+/components/Package/PackageList.js
+/components/Package/PackageDetails.js
+/components/Package/AddPackage.js
+Notification Components (Nested within Package)
+/components/Package/Notification/PushNotification.js
+/components/Package/Notification/EmailNotification.js
+/components/Package/Notification/NotificationService.js
+Profile Components (Nested within Package)
+/components/Package/Profile/UserProfile.js
+/components/Package/Profile/UpdateProfile.js
+Theme Components (Nested within Package)
+/components/Package/Themes/LightTheme.js
+/components/Package/Themes/DarkTheme.js
+Scanner Components (Nested within Package)
+/components/Package/Scanner/Camera.js
+Feedback Components
+/components/Feedback/FeedbackForm.js
+/components/Feedback/CustomerSupport.js
+Tutorial Components
+/components/Tutorial/AppTutorial.js
+Navigation Components
+/navigation/AppNavigator.js
+Other Utility Components
+Any shared utility components can be placed directly in the /components directory or organized into subdirectories as needed.
+Root Components
+App.js
+index.js
+Store Components (Redux)
+/store/actions/authActions.js
+/store/actions/packageActions.js
+/store/actions/notificationActions.js
+/store/reducers/authReducer.js
+/store/reducers/packageReducer.js
+/store/reducers/notificationReducer.js
+/store/types/authTypes.js
+/store/types/packageTypes.js
+/store/types/notificationTypes.js
+Services Components
+/services/AuthService.js
+/services/PackageService.js
+/services/NotificationService.js
+/services/CameraService.js
+Theme Components
+/themes/LightTheme.js
+/themes/DarkTheme.js
+Utility Components
+/utils/AppAnalytics.js
+/utils/StorageUtil.js
