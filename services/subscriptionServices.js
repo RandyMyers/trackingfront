@@ -1,8 +1,8 @@
 
 import axios from 'axios';
 
-const BASE_URL = 'http://192.168.0.107:3200';  // Replace with your actual backend URL
-
+const BASE_URL = 'https://track-mk6l.onrender.com';  // Replace with your actual backend URL
+//const BASE_URL = 'http://192.168.0.103:3200';
 // Get all subscriptions
 export const getAllSubscriptions = async () => {
   try {

@@ -4,6 +4,7 @@ import styled from 'styled-components/native'; // Import styled-components for R
 
 import EmailSettings from '../components/home/EmailSettings';
 import NotificationSettings from '../components/home/NotificationSettings';
+import LanguageSelector from '../components/user/languageSelector';
 
 const SettingsScreen = () => {
   return (
@@ -11,14 +12,11 @@ const SettingsScreen = () => {
       <Container>
         <Section>
           <EmailSettingsContainer>
-            <EmailSettings />
+            <LanguageSelector />
           </EmailSettingsContainer>
         </Section>
         
-        <SettingContainer>
-          <SettingTitle>Notification Settings</SettingTitle>
-          <NotificationSettings /> 
-        </SettingContainer>
+      
       </Container>
     </ScrollView>
   );
@@ -32,7 +30,7 @@ const Container = styled.View`
 
 const Section = styled.View`
   margin-top: 20px;
-  background-color: #fff;
+  
   border-radius: 10px;
   width: 90%;
   padding: 20px;

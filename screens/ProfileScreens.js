@@ -37,8 +37,8 @@ const ProfileScreen = ({ navigation }) => {
     navigation.navigate('NotificationsSettings');
   };
 
-  const navigateToPrivacySettings = () => {
-    navigation.navigate('PrivacySettings');
+  const navigateToPayments = () => {
+    navigation.navigate('Payments');
   };
 
   const navigateToDeleteAccount = () => {
@@ -47,6 +47,19 @@ const ProfileScreen = ({ navigation }) => {
 
   const navigateToCouriersScreen = () => {
     navigation.navigate('CouriersList');
+  };
+
+  const navigateToProfileSettings = () => {
+    navigation.navigate('ProfileSettings');
+  };
+
+  const navigateToFeedbackList = () => {
+    navigation.navigate('FeedbackList');
+  };
+
+  // Add navigation to DeactivationScreen
+  const navigateToDeactivateAccount = () => {
+    navigation.navigate('DeactivateAccount');
   };
 
   if (loading) {
@@ -82,49 +95,37 @@ const ProfileScreen = ({ navigation }) => {
         <Text style={styles.emailText}>{user.email}</Text>
       </View>
 
-      <TouchableOpacity style={styles.button} onPress={navigateToEditProfile}>
-        <MaterialIcons name="person" size={24} color="#10002b" />
-        <Text style={styles.buttonText}>Edit Profile</Text>
+      <TouchableOpacity style={styles.button} onPress={navigateToProfileSettings}>
+        <MaterialIcons name="settings" size={24} color="#10002b" />
+        <Text style={styles.buttonText}>Profile Settings</Text>
         <MaterialIcons name="chevron-right" size={24} color="#10002b" />
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.button} onPress={navigateToEditBilling}>
-        <MaterialIcons name="payment" size={24} color="#10002b" />
-        <Text style={styles.buttonText}>Edit Billing</Text>
-        <MaterialIcons name="chevron-right" size={24} color="#10002b" />
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.button} onPress={navigateToChangePassword}>
-        <MaterialIcons name="lock" size={24} color="#10002b" />
-        <Text style={styles.buttonText}>Change Password</Text>
+      <TouchableOpacity style={styles.button} onPress={navigateToPayments}>
+        <MaterialIcons name="credit-card" size={24} color="#10002b" />
+        <Text style={styles.buttonText}>Payments</Text>
         <MaterialIcons name="chevron-right" size={24} color="#10002b" />
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.button} onPress={navigateToCouriersScreen}>
         <MaterialIcons name="local-shipping" size={24} color="#10002b" />
-        <Text style={styles.buttonText}> Couriers List</Text>
+        <Text style={styles.buttonText}>Couriers List</Text>
         <MaterialIcons name="chevron-right" size={24} color="#10002b" />
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.button} onPress={navigateToNotificationsSettings}>
-        <MaterialIcons name="notifications" size={24} color="#10002b" />
-        <Text style={styles.buttonText}>Notifications Settings</Text>
+      <TouchableOpacity style={styles.button} onPress={navigateToFeedbackList}>
+        <MaterialIcons name="feedback" size={24} color="#10002b" />
+        <Text style={styles.buttonText}>Feedback</Text>
         <MaterialIcons name="chevron-right" size={24} color="#10002b" />
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.button} onPress={navigateToPrivacySettings}>
-        <MaterialIcons name="privacy-tip" size={24} color="#10002b" />
-        <Text style={styles.buttonText}>Privacy Settings</Text>
+      <TouchableOpacity style={styles.button} onPress={navigateToDeactivateAccount}>
+        <MaterialIcons name="remove-circle" size={24} color="#10002b" />
+        <Text style={styles.buttonText}>Deactivate Account</Text>
         <MaterialIcons name="chevron-right" size={24} color="#10002b" />
       </TouchableOpacity>
 
       
-
-      <TouchableOpacity style={styles.button} onPress={navigateToDeleteAccount}>
-        <MaterialIcons name="delete" size={24} color="#10002b" />
-        <Text style={styles.buttonText}>Delete Account</Text>
-        <MaterialIcons name="chevron-right" size={24} color="#10002b" />
-      </TouchableOpacity>
 
       <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
         <Text style={styles.buttonText}>Logout</Text>

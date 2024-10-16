@@ -124,7 +124,7 @@ export const fetchUsedTracksAction = (userId) => async (dispatch) => {
   try {
     dispatch({ type: subscriptionTypes.FETCH_USED_TRACKS_REQUEST });
     const { usedTracks, allowedTracks, plan, remainingDays, activePlan, subscriptionDetails } = await subscriptionServices.getUsedTracks(userId);
-    console.log('Actions',usedTracks, allowedTracks, plan, remainingDays)
+    console.log('Actions',subscriptionDetails)
     dispatch({
       type: subscriptionTypes.FETCH_USED_TRACKS_SUCCESS,
       payload: { usedTracks, allowedTracks, plan, remainingDays, activePlan, subscriptionDetails },

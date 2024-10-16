@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://192.168.0.107:3200';
+const BASE_URL = 'https://track-mk6l.onrender.com';
+//const BASE_URL = 'http://192.168.0.103:3200';
 
 // Get all payment methods
 export const getAllPaymentMethods = async () => {

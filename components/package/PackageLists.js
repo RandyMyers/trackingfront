@@ -1,25 +1,26 @@
 import React, { useState } from 'react';
 import { ScrollView, Text } from 'react-native';
 import styled from 'styled-components/native';
-import { MaterialIcons } from '@expo/vector-icons';
-import { FontAwesome } from '@expo/vector-icons';
+import { MaterialIcons, FontAwesome } from '@expo/vector-icons';
 import ModalComponent from './ModalComponent';
+import { useTranslation } from 'react-i18next';
 
 const PackageList = ({ packages, onPressPackage }) => {
+  const { t } = useTranslation();
   const [selectedTab, setSelectedTab] = useState('all');
   const [selectedPackage, setSelectedPackage] = useState(null);
 
   const statusIconMap = {
-    all: { label: 'All', color: '#fca311', icon: 'filter', library: 'MaterialIcons' },
-    pending: { label: 'Pending', color: '#2ec4b6', icon: 'downloading', library: 'MaterialIcons' },
-    transit: { label: 'Transit', color: '#36a2eb', icon: 'plane', library: 'FontAwesome' },
-    pickup: { label: 'Pickup', color: '#03045e', icon: 'local-shipping', library: 'MaterialIcons' },
-    delivered: { label: 'Delivered', color: '#4CAF50', icon: 'check-circle', library: 'MaterialIcons' },
-    InfoReceived: { label: 'Info Received', color: '#607D8B', icon: 'sync', library: 'MaterialIcons' },
-    notfound: { label: 'Not Found', color: '#FFC300', icon: 'info', library: 'MaterialIcons' },
-    expired: { label: 'Expired', color: '#795548', icon: 'warning', library: 'MaterialIcons' },
-    undelivered: { label: 'Undelivered', color: '#E53935', icon: 'error', library: 'MaterialIcons' },
-    exception: { label: 'Exception', color: '#9C27B0', icon: 'error-outline', library: 'MaterialIcons' },
+    all: { label: t('All'), color: '#fca311', icon: 'filter', library: 'MaterialIcons' },
+    pending: { label: t('Pending'), color: '#2ec4b6', icon: 'downloading', library: 'MaterialIcons' },
+    transit: { label: t('Transit'), color: '#36a2eb', icon: 'plane', library: 'FontAwesome' },
+    pickup: { label: t('Pickup'), color: '#03045e', icon: 'local-shipping', library: 'MaterialIcons' },
+    delivered: { label: t('Delivered'), color: '#4CAF50', icon: 'check-circle', library: 'MaterialIcons' },
+    InfoReceived: { label: t('Info Received'), color: '#607D8B', icon: 'sync', library: 'MaterialIcons' },
+    notfound: { label: t('Not Found'), color: '#FFC300', icon: 'info', library: 'MaterialIcons' },
+    expired: { label: t('Expired'), color: '#795548', icon: 'warning', library: 'MaterialIcons' },
+    undelivered: { label: t('Undelivered'), color: '#E53935', icon: 'error', library: 'MaterialIcons' },
+    exception: { label: t('Exception'), color: '#9C27B0', icon: 'error-outline', library: 'MaterialIcons' },
   };
 
   const handleViewDetails = (packageItem) => {
@@ -69,20 +70,20 @@ const PackageList = ({ packages, onPressPackage }) => {
                     )}
                   </StatusIcon>
                   <StatusText style={{ color: statusIconMap[packageItem.deliveryStatus].color }}>
-                    {packageItem.deliveryStatus}
+                    {statusIconMap[packageItem.deliveryStatus].label}
                   </StatusText>
                 </DeliveryStatus>
                 <TrackingNumber>{packageItem.trackingNumber}</TrackingNumber>
-                <Location>{packageItem.latest_event || 'Latest event is pending or yet to update. Check in later after some hours.'}</Location>
+                <Location>{packageItem.latest_event || t('Latest event is pending or yet to update. Check in later after some hours.')}</Location>
                 <UpdateButton onPress={() => handleViewDetails(packageItem)}>
-                  <ButtonText>View Details</ButtonText>
+                  <ButtonText>{t('View Details')}</ButtonText>
                 </UpdateButton>
               </PackageInfo>
-              <PackageImage source={require('../../images/package.png')} />
+              <PackageImage source={require('../../images/package1.png')} />
             </PackageCard>
           ))
         ) : (
-          <Text>No packages available</Text>
+          <Text>{t('No packages available')}</Text>
         )}
       </ScrollView>
 

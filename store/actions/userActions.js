@@ -107,4 +107,47 @@ export const clearSelectedUserAction = () => {
     type: types.CLEAR_SELECTED_USER,
   };
 };
+
+export const setLanguageAction = (language) => (dispatch) => {
+  dispatch({
+    type: types.SET_LANGUAGE,
+    payload: language,
+  });
+};
+
+// Action to deactivate a user
+export const deactivateUserAction = (userId, reason) => async (dispatch) => {
+  try {
+    dispatch({ type: types.DEACTIVATE_USER_REQUEST });
+    const response = await userService.deactivateUser(userId, reason);
+    dispatch({
+      type: types.DEACTIVATE_USER_SUCCESS,
+      payload: response, // The response should include isActive
+    });
+  } catch (error) {
+    console.error(`Error deactivating user ${userId}:`, error);
+    dispatch({
+      type: types.DEACTIVATE_USER_FAILURE,
+      error: error.message,
+    });
+  }
+};
+
+// Action to reactivate a user
+export const reactivateUserAction = (userId) => async (dispatch) => {
+  try {
+    dispatch({ type: types.REACTIVATE_USER_REQUEST });
+    const response = await userService.reactivateUser(userId);
+    dispatch({
+      type: types.REACTIVATE_USER_SUCCESS,
+      payload: response, // The response should include isActive
+    });
+  } catch (error) {
+    console.error(`Error reactivating user ${userId}:`, error);
+    dispatch({
+      type: types.REACTIVATE_USER_FAILURE,
+      error: error.message,
+    });
+  }
+};
 // Other user actions as needed...

@@ -1,7 +1,9 @@
+// src/components/UsageTracker.js
 import React from 'react';
 import { View, Text } from 'react-native';
 import { ProgressBar } from 'react-native-paper';
 import styled from 'styled-components/native';
+import { useTranslation } from 'react-i18next';
 
 const Container = styled.View`
   padding: 20px;
@@ -33,17 +35,16 @@ const ProgressBarContainer = styled.View`
 `;
 
 const UsageTracker = ({ used, total, plan, remainingDays }) => {
+  const { t } = useTranslation();
   const percentageUsed = (used / total) * 100;
 
   return (
     <Container>
       <UsageText>
-        You have used {used} out of {total} tracking numbers ({percentageUsed.toFixed(0)}%)
-        {' '}
-        on your {plan} Plan.
+        {t('usageTracker.used', { used, total, percentageUsed: percentageUsed.toFixed(0), plan })}
       </UsageText>
       <RemainingDaysText>
-        Remaining days: {remainingDays}
+        {t('usageTracker.remainingDays', { remainingDays })}
       </RemainingDaysText>
       <ProgressBarContainer>
         <ProgressBar

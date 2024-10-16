@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Modal, Button } from 'react-native';
-import { FontAwesome5, FontAwesome } from '@expo/vector-icons'; // Import FontAwesome5 icons
-import { RadioButton } from 'react-native-paper'; // Import RadioButton from react-native-paper
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Modal } from 'react-native';
+import { FontAwesome5, FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { createPaymentIntentAction } from '../../store/actions/paymentActions';
 import { selectPlanAction } from '../../store/actions/subscriptionPlanActions';
 import { setSubscriptionAction } from '../../store/actions/subscriptionActions';
@@ -14,30 +13,30 @@ const SubscriptionPlans = ({ plans }) => {
 
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
-  const [selectedPaymentOption, setSelectedPaymentOption] = useState(null);
-  
+  const ActivePlan = useSelector((state) => state.subscription.plan);
 
   const handleSubscribe = (plan) => {
-    
     setSelectedPlan(plan);
-    
+    let actionType = 'upgrade';
+    dispatch(setSubscriptionAction(actionType));
+    setModalVisible(true);
+  };
+
+  const handleRenew = (plan) => {
+    setSelectedPlan(plan);
+    let actionType = 'renew';
+    dispatch(setSubscriptionAction(actionType));
     setModalVisible(true);
   };
 
   const handlePay = () => {
-    // Dispatch createPaymentIntent action with payment data
     let planId = selectedPlan._id;
-    
-    let actionType = 'upgrade';
-    dispatch(setSubscriptionAction(actionType));
     dispatch(selectPlanAction(planId));
     setModalVisible(false); // Close the modal
     navigation.navigate('PaymentMethod'); // Navigate to Payment screen
   };
 
-
   const renderIcon = (planName) => {
-    console.log('The Plan', planName);
     switch (planName) {
       case 'Basic':
         return <FontAwesome5 name="cog" size={24} color="#6200b3" style={styles.icon} />;
@@ -64,34 +63,40 @@ const SubscriptionPlans = ({ plans }) => {
               <Text key={idx} style={styles.feature}>{feature}</Text>
             ))}
           </View>
-          <TouchableOpacity style={styles.subscribeButton} onPress={() => handleSubscribe(plan)}>
-            <Text style={styles.subscribeButtonText}>Subscribe</Text>
-          </TouchableOpacity>
+          {ActivePlan && ActivePlan === plan.name && ActivePlan !== 'Trial' ? (
+            <TouchableOpacity style={styles.renewButton} onPress={() => handleRenew(plan)}>
+              <Text style={styles.renewButtonText}>Renew</Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity style={styles.subscribeButton} onPress={() => handleSubscribe(plan)}>
+              <Text style={styles.subscribeButtonText}>Subscribe</Text>
+            </TouchableOpacity>
+          )}
         </View>
       ))}
 
-<Modal
-  animationType="slide"
-  transparent={true}
-  visible={modalVisible}
-  onRequestClose={() => setModalVisible(false)}
->
-  <View style={styles.modalContainer}>
-    <View style={styles.modalContent}>
-      <TouchableOpacity style={styles.closeButton} onPress={() => setModalVisible(false)}>
-        <FontAwesome5 name="times" size={24} color="#666" />
-      </TouchableOpacity>
-      <Text style={styles.modalTitle}>Selected Subscription</Text>
-      <View style={styles.selectedPlanContainer}>
-        <Text style={styles.selectedPlanText}>{selectedPlan?.name} Plan</Text>
-        <Text style={styles.selectedPlanPrice}>${selectedPlan?.monthlyPrice}</Text>
-      </View>
-      <TouchableOpacity style={styles.payButton} onPress={handlePay}>
-        <Text style={styles.payButtonText}>Pay</Text>
-      </TouchableOpacity>
-    </View>
-  </View>
-</Modal>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <TouchableOpacity style={styles.closeButton} onPress={() => setModalVisible(false)}>
+              <FontAwesome5 name="times" size={24} color="#666" />
+            </TouchableOpacity>
+            <Text style={styles.modalTitle}>Selected Subscription</Text>
+            <View style={styles.selectedPlanContainer}>
+              <Text style={styles.selectedPlanText}>{selectedPlan?.name} Plan</Text>
+              <Text style={styles.selectedPlanPrice}>${selectedPlan?.monthlyPrice}</Text>
+            </View>
+            <TouchableOpacity style={styles.payButton} onPress={handlePay}>
+              <Text style={styles.payButtonText}>Pay</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </ScrollView>
   );
 };
@@ -152,6 +157,18 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 16,
   },
+  renewButton: {
+    backgroundColor: '#FFA500',
+    borderRadius: 10,
+    paddingVertical: 12,
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  renewButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
   modalContainer: {
     flex: 1,
     justifyContent: 'flex-end',
@@ -202,24 +219,6 @@ const styles = StyleSheet.create({
     top: 10,
     right: 10,
     padding: 5,
-  },
-  paymentHeader: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginBottom: 10,
-  },
-  paymentOptions: {
-    flexDirection: 'column',
-    marginBottom: 20,
-  },
-  paymentOption: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  selectedPaymentOption: {
-    backgroundColor: '#6200b3',
-    borderColor: '#6200b3',
   },
 });
 

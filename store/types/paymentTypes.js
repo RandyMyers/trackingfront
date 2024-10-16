@@ -53,4 +53,9 @@ export const CAPTURE_PAYPAL_PAYMENT_FAILURE = 'CAPTURE_PAYPAL_PAYMENT_FAILURE';
 // Action types for selecting a payment gateway
 export const SELECT_PAYMENT_GATEWAY = 'SELECT_PAYMENT_GATEWAY';
 
+// Action types for fetching payments by user ID
+export const FETCH_PAYMENTS_BY_USER_REQUEST = 'FETCH_PAYMENTS_BY_USER_REQUEST';
+export const FETCH_PAYMENTS_BY_USER_SUCCESS = 'FETCH_PAYMENTS_BY_USER_SUCCESS';
+export const FETCH_PAYMENTS_BY_USER_FAILURE = 'FETCH_PAYMENTS_BY_USER_FAILURE';
+
 // Other payment-related action types as needed...

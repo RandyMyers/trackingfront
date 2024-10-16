@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://192.168.0.107:3200';
+const BASE_URL = 'https://track-mk6l.onrender.com';
+//const BASE_URL = 'http://192.168.0.103:3200';
 
 // Get all users
 export const getAllUsers = async () => {
@@ -54,6 +55,28 @@ export const deleteUser = async (userId) => {
     return response.data;
   } catch (error) {
     console.error(`Error deleting user ${userId}:`, error);
+    throw error;
+  }
+};
+
+// Deactivate a user account
+export const deactivateUser = async (userId, reason) => {
+  try {
+    const response = await axios.patch(`${BASE_URL}/api/users/deactivate/${userId}`, { reason });
+    return response.data;
+  } catch (error) {
+    console.error(`Error deactivating user ${userId}:`, error);
+    throw error;
+  }
+};
+
+// Reactivate a user account
+export const reactivateUser = async (userId) => {
+  try {
+    const response = await axios.patch(`${BASE_URL}/api/users/reactivate/${userId}`);
+    return response.data;
+  } catch (error) {
+    console.error(`Error reactivating user ${userId}:`, error);
     throw error;
   }
 };

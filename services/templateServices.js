@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:3200';
+const BASE_URL = 'https://track-mk6l.onrender.com';
 
 // Add a new email template
 export const addEmailTemplate = async (templateData) => {

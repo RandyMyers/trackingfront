@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, Image } from 'react-native';
 import styled from 'styled-components/native';
 import { FontAwesome } from '@expo/vector-icons'; // Import the FontAwesome icon library
 import { useNavigation } from '@react-navigation/native'; // Import the useNavigation hook
+import { useTranslation } from 'react-i18next'; // Import useTranslation hook
 
 const Container = styled.View`
   background-color: #d3b8ff;
@@ -51,6 +52,7 @@ const ImageContainer = styled.View`
 
 const AddPackage = () => {
   const navigation = useNavigation(); 
+  const { t } = useTranslation(); // Use useTranslation hook
 
   const handleAddShipment = () => {
     navigation.navigate('AddPackage'); 
@@ -60,9 +62,9 @@ const AddPackage = () => {
     <Container>
       <InnerContainer>
         <TextContainer>
-          <Title>Track all your incoming shipments in one place</Title>
+          <Title>{t('track_incoming_shipments')}</Title>
           <Button onPress={handleAddShipment}> 
-            <ButtonText>Add Shipment</ButtonText>
+            <ButtonText>{t('add_shipment')}</ButtonText>
           </Button>
         </TextContainer>
         <ImageContainer>

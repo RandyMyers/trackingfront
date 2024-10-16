@@ -14,6 +14,10 @@ import subscriptionReducer from './reducers/subscriptionReducers';
 
 import notificationReducer from './reducers/notificationReducers';
 import paymentMethodReducer from './reducers/paymentMethodReducer';
+import couponReducer from './reducers/couponReducers';
+import categoryReducer from './reducers/categoryReducers';
+import brandReducer from './reducers/brandReducer';
+import feedbackReducer from './reducers/feedbackReducers';
 
 const rootReducer = combineReducers({
   auth: authReducers,
@@ -25,12 +29,16 @@ const rootReducer = combineReducers({
   payments: paymentReducer,
   note: notificationReducer,
   paymentMethod: paymentMethodReducer,
+  deal: couponReducer,
+  category: categoryReducer,
+  brand: brandReducer,
+  feedback: feedbackReducer
 });
 
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  whitelist: ['auth', 'plans', 'payments','subscription'],
+  whitelist: ['auth', 'plans','subscription','user'],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

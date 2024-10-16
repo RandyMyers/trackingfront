@@ -1,8 +1,9 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
 import styled from 'styled-components/native';
-import { FontAwesome } from '@expo/vector-icons'; // Import the FontAwesome icon library
-import { useNavigation } from '@react-navigation/native'; // Import the useNavigation hook
+import { FontAwesome } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next'; // Import the useTranslation hook
 
 const Container = styled.View`
   background-color: #caf0f8;
@@ -52,19 +53,20 @@ const ImageContainer = styled.View`
 `;
 
 const SubscriptionCard = () => {
-  const navigation = useNavigation(); 
+  const navigation = useNavigation();
+  const { t } = useTranslation(); // Use the useTranslation hook
 
   const handleSubscription = () => {
-    navigation.navigate('Subscription'); 
+    navigation.navigate('Subscription');
   };
 
   return (
     <Container>
       <InnerContainer>
         <TextContainer>
-          <Title>Unlock Exclusive Benefits with Subscription Plans</Title>
-          <Button onPress={handleSubscription}> 
-            <ButtonText>Explore</ButtonText>
+          <Title>{t('unlock_benefits')}</Title>
+          <Button onPress={handleSubscription}>
+            <ButtonText>{t('explore')}</ButtonText>
           </Button>
         </TextContainer>
         <ImageContainer>

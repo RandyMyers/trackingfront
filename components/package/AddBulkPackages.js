@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { View, TextInput, TouchableOpacity, Text, Alert, StyleSheet } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { addPackagesAction, getPackagesForUserAction } from '../../store/actions/packageActions';
 import CourierSelectionModal from './CourierListModal'; // Import the modal
 
 const AddPackageForm = ({ setIsUpgradeModalVisible, setIsRenewModalVisible, used, total, plan, remainingDays }) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const [trackingNumbers, setTrackingNumbers] = useState('');
   const [packageDescription, setPackageDescription] = useState('');
@@ -23,7 +25,7 @@ const AddPackageForm = ({ setIsUpgradeModalVisible, setIsRenewModalVisible, used
     }
 
     if (!courier) {
-      Alert.alert('Error', 'Please select a courier');
+      Alert.alert(t('error'), t('please_select_courier'));
       return;
     }
 
@@ -48,7 +50,7 @@ const AddPackageForm = ({ setIsUpgradeModalVisible, setIsRenewModalVisible, used
     setCourier(null); // Reset courier
 
     // Alert the client that the packages have been added successfully
-    Alert.alert('Success', 'Packages added successfully');
+    Alert.alert(t('success'), t('packages_added_successfully'));
   };
 
   const categories = [
@@ -70,14 +72,14 @@ const AddPackageForm = ({ setIsUpgradeModalVisible, setIsRenewModalVisible, used
         style={[styles.input, { height: 100 }]}
         value={trackingNumbers}
         onChangeText={setTrackingNumbers}
-        placeholder="Enter tracking numbers (one per line)"
+        placeholder={t('enter_tracking_numbers_one_per_line')}
         multiline
       />
       <TextInput
         style={[styles.input, { height: 100 }]}
         value={packageDescription}
         onChangeText={setPackageDescription}
-        placeholder="Enter package description"
+        placeholder={t('enter_package_description')}
         multiline
       />
       <TouchableOpacity
@@ -85,11 +87,11 @@ const AddPackageForm = ({ setIsUpgradeModalVisible, setIsRenewModalVisible, used
         onPress={() => setIsModalVisible(true)}
       >
         <Text style={styles.selectCourierButtonText}>
-          {courier ? `Courier: ${courier.courier_name}` : 'Select Courier'}
+          {courier ? `${t('courier')}: ${courier.courier_name}` : t('select_courier')}
         </Text>
       </TouchableOpacity>
       <View style={styles.categoriesContainer}>
-        <Text style={styles.label}>Select Category:</Text>
+        <Text style={styles.label}>{t('select_category')}:</Text>
         <View style={styles.categoryButtonsContainer}>
           {categories.map(category => (
             <TouchableOpacity
@@ -98,14 +100,14 @@ const AddPackageForm = ({ setIsUpgradeModalVisible, setIsRenewModalVisible, used
               onPress={() => setSelectedCategory(category)}
             >
               <Text style={[styles.categoryButtonText, selectedCategory === category && styles.selectedCategoryButtonText]}>
-                {category}
+                {t(category)}
               </Text>
             </TouchableOpacity>
           ))}
         </View>
       </View>
       <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
-        <Text style={styles.saveButtonText}>Save</Text>
+        <Text style={styles.saveButtonText}>{t('save')}</Text>
       </TouchableOpacity>
 
       <CourierSelectionModal

@@ -1,8 +1,9 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { MaterialIcons, FontAwesome, FontAwesome5 } from '@expo/vector-icons'; // Import the necessary icon libraries
+import { MaterialIcons, FontAwesome, FontAwesome5 } from '@expo/vector-icons';
 import HomeStack from './HomeStack';
 import PackageStack from './PackageStack';
+import DealStack from './DealStack';  // Import DealStack
 import ProfileStack from './ProfileStack';
 
 const Tab = createBottomTabNavigator();
@@ -19,6 +20,8 @@ const AppNavigator = () => {
             iconName = 'home';
           } else if (route.name === 'Packages') {
             iconName = 'box';
+          } else if (route.name === 'Deals') {
+            iconName = 'tag';  // Use an appropriate icon for Deals
           } else if (route.name === 'Profile') {
             iconName = 'user';
           }
@@ -28,6 +31,8 @@ const AppNavigator = () => {
             return <MaterialIcons name={iconName} color={color} size={size} />;
           } else if (iconName === 'box') {
             return <FontAwesome5 name={iconName} color={color} size={size} />;
+          } else if (iconName === 'tag') {
+            return <FontAwesome name={iconName} color={color} size={size} />;
           } else {
             return <FontAwesome name={iconName} color={color} size={size} />;
           }
@@ -44,6 +49,13 @@ const AppNavigator = () => {
       <Tab.Screen 
         name="Packages" 
         component={PackageStack} 
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Tab.Screen 
+        name="Deals" 
+        component={DealStack}  // Add the DealStack here
         options={{
           headerShown: false,
         }}

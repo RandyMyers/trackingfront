@@ -3,8 +3,10 @@ import { View, Switch, ScrollView, Alert } from 'react-native';
 import styled from 'styled-components/native';
 import { useDispatch, useSelector } from 'react-redux'; // Import useDispatch hook
 import { updateUserAction } from '../../store/actions/userActions'; // Import updateUserAction
+import { useTranslation } from 'react-i18next'; // Import useTranslation hook
 
 const EmailSettings = () => {
+  const { t } = useTranslation(); // Use useTranslation hook
   const dispatch = useDispatch(); // Initialize dispatch hook
   const userId = useSelector((state) => state.auth.user);
   const [notificationSettings, setNotificationSettings] = useState({
@@ -42,27 +44,27 @@ const EmailSettings = () => {
 
   return (
     <Container>
-      <Title>Settings</Title>
+      <Title>{t('settings')}</Title>
       <ScrollViewContainer>
         {Object.keys(notificationSettings).map(setting => (
           <View key={setting}>
-            <SettingTitle>{setting.charAt(0).toUpperCase() + setting.slice(1)}</SettingTitle>
+            <SettingTitle>{t(setting)}</SettingTitle>
             <Setting>
-              <SettingText>Email</SettingText>
+              <SettingText>{t('email')}</SettingText>
               <Switch
                 value={notificationSettings[setting].email}
                 onValueChange={() => toggleSetting(setting, 'email')}
               />
             </Setting>
             <Setting>
-              <SettingText>Push</SettingText>
+              <SettingText>{t('push')}</SettingText>
               <Switch
                 value={notificationSettings[setting].push}
                 onValueChange={() => toggleSetting(setting, 'push')}
               />
             </Setting>
             <Setting>
-              <SettingText>In App</SettingText>
+              <SettingText>{t('in_app')}</SettingText>
               <Switch
                 value={notificationSettings[setting].inApp}
                 onValueChange={() => toggleSetting(setting, 'inApp')}

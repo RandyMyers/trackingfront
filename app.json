@@ -8,7 +8,7 @@
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
-      "resizeMode": "contain",
+      "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
     "assetBundlePatterns": [
@@ -21,7 +21,9 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.ranmyers12.client",
+      "googleServicesFile": "./android/app/google-services.json"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -30,6 +32,10 @@
       "eas": {
         "projectId": "f66674b4-d95b-44b6-87a6-bf143bdfb49d"
       }
+    },
+    "runtimeVersion": "51.0.0",
+    "updates": {
+      "url": "https://u.expo.dev/f66674b4-d95b-44b6-87a6-bf143bdfb49d"
     }
   }
 }

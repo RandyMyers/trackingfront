@@ -1,8 +1,8 @@
 import React from 'react';
-import { Modal, View, Text, ScrollView } from 'react-native';
+import { Modal, ScrollView } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components/native';
-import { FontAwesome, MaterialIcons } from '@expo/vector-icons'; // Import FontAwesome and MaterialIcons
+import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import PackageTimeline from './PackageTimeline';
 import { updatePackageStatusAction } from '../../store/actions/packageActions';
 
@@ -20,134 +20,162 @@ const statusIconMap = {
 };
 
 const ModalComponent = ({ visible, onClose, packageItem }) => {
-    const dispatch = useDispatch();
-    const userId = useSelector((state)=> state.auth.user);
-    
-    const handleUpdateStatus = (packageItem) => {
-        // Dispatch the action to update the package status here
-        const packageId = packageItem._id;
-        dispatch(updatePackageStatusAction(packageId, userId));
+  const dispatch = useDispatch();
+  const userId = useSelector((state) => state.auth.user);
 
-        // Refresh the screen by updating the state or refetching the data
-        // Example: setRefresh(!refresh);
-    };
-  // Check if packageItem is null
+  const handleUpdateStatus = (packageItem) => {
+    const packageId = packageItem._id;
+    dispatch(updatePackageStatusAction(packageId, userId));
+  };
+
   if (!packageItem) {
-    return null; // Return null if packageItem is null
+    return null;
   }
 
-  // Get the status icon and color based on the delivery status
   const { icon, color, label, library } = statusIconMap[packageItem.deliveryStatus] || {};
 
   return (
-    <Modal
-        visible={visible}
-        animationType="slide"
-        transparent={true}
-        onRequestClose={onClose}
-    >
-        <StyledModalContent>
-            <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-                {/* Reload button */}
-                <ReloadButton onPress={() => handleUpdateStatus(packageItem)}>
-                    <MaterialIcons name="refresh" size={24} color="#000" />
-                </ReloadButton>
-                <ModalHeader>
-                    <HeaderText>Tracking Information</HeaderText>
-                </ModalHeader>
-                <DetailsContainer>
-                    <DetailLabel>Tracking Number:</DetailLabel>
-                    <DetailText>{packageItem.trackingNumber}</DetailText>
+    <Modal visible={visible} animationType="slide" transparent={true} onRequestClose={onClose}>
+      <StyledModalContent>
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+          <ReloadButton onPress={() => handleUpdateStatus(packageItem)}>
+            <MaterialIcons name="refresh" size={24} color="#000" />
+          </ReloadButton>
+          <ModalHeader>
+            <HeaderText>Tracking Information</HeaderText>
+          </ModalHeader>
+          <DetailsContainer>
+            <DetailItem>
+                <DetailItemHeader >
+                   <MaterialIcons name="local-shipping" size={20} color="#000" />
+                   <DetailLabel>Tracking Number:</DetailLabel>
+                </DetailItemHeader>
+              
+              <DetailText>{packageItem.trackingNumber}</DetailText>
+            </DetailItem>
+            <Divider />
+            <DetailItem>
+                <DetailItemHeader>
+                    <MaterialIcons name="event" size={20} color="#000" />
                     <DetailLabel>Latest Event:</DetailLabel>
-                    <DetailText>{packageItem.latest_event}</DetailText>
-                </DetailsContainer>
-                <DeliveryStatusContainer backgroundColor={color}>
-                    {library === 'MaterialIcons' ? (
-                        <MaterialIcons name={icon} size={24} color="#fff" />
-                    ) : (
-                        <FontAwesome name={icon} size={24} color="#fff" />
-                    )}
-                    <StatusText>{label}</StatusText>
-                </DeliveryStatusContainer>
-                {packageItem.destination_info[0].trackinfo.length > 0 ? (
-                    <PackageTimeline
-                        trackinfo={packageItem.destination_info[0].trackinfo}
-                        location={packageItem.origin_info[0].location}
-                    />
-                ) : (
-                    <PackageTimeline
-                        trackinfo={packageItem.origin_info[0].trackinfo}
-                        location={packageItem.origin_info[0].location}
-                    />
-                )}
-            </ScrollView>
-            <CloseButton onPress={onClose}>
-                <MaterialIcons name="close" size={24} color="#000" />
-            </CloseButton>
-        </StyledModalContent>
+                </DetailItemHeader>
+              
+              <DetailText>{packageItem.latest_event}</DetailText>
+            </DetailItem>
+          </DetailsContainer>
+          <DeliveryStatusContainer backgroundColor={color}>
+            {library === 'MaterialIcons' ? (
+              <MaterialIcons name={icon} size={24} color="#fff" />
+            ) : (
+              <FontAwesome name={icon} size={24} color="#fff" />
+            )}
+            <StatusText>{label}</StatusText>
+          </DeliveryStatusContainer>
+          {packageItem.destination_info[0].trackinfo.length > 0 ? (
+            <PackageTimeline
+              trackinfo={packageItem.destination_info[0].trackinfo}
+              location={packageItem.origin_info[0].location}
+            />
+          ) : (
+            <PackageTimeline
+              trackinfo={packageItem.origin_info[0].trackinfo}
+              location={packageItem.origin_info[0].location}
+            />
+          )}
+        </ScrollView>
+        <CloseButton onPress={onClose}>
+          <MaterialIcons name="close" size={24} color="#000" />
+        </CloseButton>
+      </StyledModalContent>
     </Modal>
-);
+  );
 };
 
 const StyledModalContent = styled.View`
-flex: 1;
-background-color: #f0f0f0; /* Light grey */
-padding: 20px;
+  flex: 1;
+  background-color: #f0f0f0;
+  padding: 20px;
 `;
 
 const ModalHeader = styled.View`
-align-items: center;
-margin-bottom: 20px;
+  align-items: center;
+  margin-bottom: 20px;
 `;
 
 const HeaderText = styled.Text`
-font-size: 18px;
-font-weight: bold;
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
 `;
 
 const DetailsContainer = styled.View`
-margin-bottom: 20px;
-background-color: #fff;
-border-radius: 10px;
-padding: 15px;
+  background-color: #fff;
+  border-radius: 15px;
+  padding: 20px;
+  shadow-color: #000;
+  
+  shadow-opacity: 0.25;
+  shadow-radius: 3.84px;
+  elevation: 5;
+  margin-bottom: 20px;
 `;
 
-const DeliveryStatusContainer = styled.View`
-margin-bottom: 20px;
-background-color: ${({ backgroundColor }) => backgroundColor || '#fff'}; /* Use the provided background color */
-border-radius: 8px;
-padding: 10px;
-flex-direction: row;
-justify-content: center;
-align-items: center;
+const DetailItem = styled.View`
+  flex-direction: column;
+  margin-bottom: 15px;
+`;
+
+const DetailItemHeader = styled.View`
+  flex-direction: row;
+  margin-bottom: 15px;
 `;
 
 const DetailLabel = styled.Text`
-font-weight: bold;
-margin-bottom: 5px;
+  font-weight: bold;
+  margin-left: 10px;
+  color: #333;
+  font-size: 16px;
 `;
 
 const DetailText = styled.Text`
-margin-bottom: 10px;
+  margin-left: auto;
+  color: #555;
+  font-size: 15px;
+`;
+
+const Divider = styled.View`
+  height: 1px;
+  background-color: #ddd;
+  margin-vertical: 10px;
+`;
+
+const DeliveryStatusContainer = styled.View`
+  background-color: ${({ backgroundColor }) => backgroundColor || '#fff'};
+  border-radius: 8px;
+  padding: 10px;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
 `;
 
 const StatusText = styled.Text`
-color: #fff;
-margin-left: 2px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  margin-left: 10px;
 `;
 
 const CloseButton = styled.TouchableOpacity`
-position: absolute;
-top: 20px;
-right: 20px;
+  position: absolute;
+  top: 20px;
+  right: 20px;
 `;
 
-// Styled component for the reload button
 const ReloadButton = styled.TouchableOpacity`
-position: absolute;
-top: 1px;
-left: 5px;
-
+  position: absolute;
+  top: 1px;
+  left: 5px;
 `;
 
 export default ModalComponent;

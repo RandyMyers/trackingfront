@@ -7,9 +7,9 @@ import { getAllPaymentMethodsAction, selectPaymentMethodAction } from '../store/
 
 const PaymentMethodScreen = ({ navigation }) => {
   const [paymentOption, setPaymentOption] = useState();
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null); // New state for entire object
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
   const dispatch = useDispatch();
-  const userId = useSelector((state) => state.auth.user); // Assuming this is the correct selection
+  const userId = useSelector((state) => state.auth.user);
   const plan = useSelector((state) => state.plans.selectedPlan);
   const paymentMethods = useSelector((state) => state.paymentMethod.paymentMethods);
 
@@ -17,30 +17,36 @@ const PaymentMethodScreen = ({ navigation }) => {
     dispatch(getAllPaymentMethodsAction());
   }, [dispatch]);
 
-  console.log('my plan', plan);
+  console.log('my plan', paymentMethods);
 
   const filteredPaymentMethods = paymentMethods?.filter(
     (paymentMethod) => paymentMethod.isVisible === true
   );
 
   const handleContinue = () => {
-    dispatch(selectPaymentGatewayAction(paymentOption.type)); // Update state with selected payment method type (optional)
-
-    // Choose between dispatching type or entire object
-    // Option 1: Dispatch payment method type (simpler approach)
-    // dispatch(selectPaymentMethodAction(paymentOption));
-
-    // Option 2: Dispatch entire payment method object (more information)
+    dispatch(selectPaymentGatewayAction(paymentOption));
     dispatch(selectPaymentMethodAction(selectedPaymentMethod));
-
+  
     if (paymentOption === 'stripe') {
-      navigation.navigate('BillingInfo'); // Navigate to BillingInfo screen
+      navigation.navigate('BillingInfo');
     } else if (paymentOption === 'paypal') {
-      navigation.navigate('PayPalBilling'); // Navigate to PayPal checkout screen
+      navigation.navigate('PayPalBilling');
     } else if (paymentOption === 'cryptocurrency') {
-      navigation.navigate('CryptoCheckout'); // Navigate to Cryptocurrency checkout screen
+      navigation.navigate('CryptoCheckout');
+    } else if (paymentOption === 'Link') {
+      navigation.navigate('PaymentBillingForm', { paymentMethod: selectedPaymentMethod });
+    }
+    else if (paymentOption === 'Cashapp') {
+      navigation.navigate('CashAppBilling', { paymentMethod: selectedPaymentMethod });
+    }
+    else if (paymentOption === 'ZellePay') {
+      navigation.navigate('PaymentBillingForm', { paymentMethod: selectedPaymentMethod });
+    }
+    else if (paymentOption === 'Venmo') {
+      navigation.navigate('PaymentBillingForm', { paymentMethod: selectedPaymentMethod });
     }
   };
+  
 
   return (
     <View style={styles.container}>
@@ -48,11 +54,11 @@ const PaymentMethodScreen = ({ navigation }) => {
 
       {filteredPaymentMethods?.map((paymentMethod) => (
         <TouchableOpacity
-          key={paymentMethod._id} // Use a unique key for each payment method
+          key={paymentMethod._id}
           style={styles.option}
           onPress={() => {
-            setSelectedPaymentMethod(paymentMethod); // Set selectedPaymentMethod state with the entire object
-            setPaymentOption(paymentMethod.type); // Update paymentOption for further use (optional)
+            setSelectedPaymentMethod(paymentMethod);
+            setPaymentOption(paymentMethod.type);
           }}
         >
           {paymentMethod.imageUrl && (
@@ -65,8 +71,8 @@ const PaymentMethodScreen = ({ navigation }) => {
             value={paymentMethod.type}
             status={paymentOption === paymentMethod.type ? 'checked' : 'unchecked'}
             onPress={() => {
-              setSelectedPaymentMethod(paymentMethod); // Set selectedPaymentMethod state with the entire object
-              setPaymentOption(paymentMethod.type); // Update paymentOption for further use (optional)
+              setSelectedPaymentMethod(paymentMethod);
+              setPaymentOption(paymentMethod.type);
             }}
           />
         </TouchableOpacity>
@@ -82,6 +88,7 @@ const PaymentMethodScreen = ({ navigation }) => {
     </View>
   );
 };
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -102,17 +109,17 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   infoContainer: {
-    flex: 1, // Allow text to fill available space
+    flex: 1,
   },
   option: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between', // Align text and radio button at opposite ends
+    justifyContent: 'space-between',
     marginBottom: 15,
     backgroundColor: '#fff',
     width: '90%',
     borderRadius: 8,
-    paddingHorizontal: 10, // Add padding to create space between text and button
+    paddingHorizontal: 10,
   },
   optionText: {
     fontSize: 16,

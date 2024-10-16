@@ -41,6 +41,26 @@ const paymentReducer = (state = initialState, action) => {
         error: action.error,
       };
 
+      // Fetch payments by user ID
+    case paymentTypes.FETCH_PAYMENTS_BY_USER_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+    case paymentTypes.FETCH_PAYMENTS_BY_USER_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        payments: action.payload,
+      };
+    case paymentTypes.FETCH_PAYMENTS_BY_USER_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        error: action.error,
+      };
+
     // Fetch a payment by ID
     case paymentTypes.FETCH_PAYMENT_REQUEST:
       return {
@@ -72,7 +92,7 @@ const paymentReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        payments: [...state.payments, action.payload],
+        paymentId: action.payload.paymentId,
       };
     case paymentTypes.CREATE_PAYMENT_FAILURE:
       return {

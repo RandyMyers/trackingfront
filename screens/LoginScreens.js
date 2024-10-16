@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { ToastAndroid } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import styled from 'styled-components/native';
 import { loginUserAction } from '../store/actions/authActions';
@@ -84,7 +85,24 @@ const LoginScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  
+
   const error = useSelector(state => state.auth.error);
+  const message = useSelector(state => state.auth.message);
+
+  useEffect(() => {
+    if (message) {
+      ToastAndroid.show(message, ToastAndroid.SHORT);
+    }
+  }, [message]);
+  
+
+  useEffect(() => {
+    if (error) {
+      ToastAndroid.show(error, ToastAndroid.SHORT);
+    }
+  }, [error]);
+  
 
   const handleLogin = () => {
     const userData = {
@@ -92,18 +110,20 @@ const LoginScreen = ({ navigation }) => {
       password,
     };
     dispatch(loginUserAction(userData));
+    
   };
 
   return (
     <LoginScreenContainer>
+      
       <LogoContainer>
         <PackageIcon name="box" />
-        <LogoText>TrackMate</LogoText>
+        <LogoText>Track4u</LogoText>
       </LogoContainer>
 
       <Title>Login</Title>
 
-      {error && <ErrorMessage>{error}</ErrorMessage>}
+
 
       <Input
         placeholder="Username"

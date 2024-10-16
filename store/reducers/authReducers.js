@@ -11,6 +11,7 @@ const initialState = {
   error: null,
   resetCodeSent: false,
   resetCodeVerified: false,
+  message: null,
 };
 
 const authReducers = (state = initialState, action) => {
@@ -25,6 +26,7 @@ const authReducers = (state = initialState, action) => {
         ...state,
         loading: true,
         error: null,
+        message: null, // Clear any previous messages on new requests
       };
 
     case types.REGISTER_SUCCESS:
@@ -33,6 +35,7 @@ const authReducers = (state = initialState, action) => {
         user: action.payload.user,
         loading: false,
         error: null,
+        message: action.payload.message || null,
       };
 
     case types.LOGIN_SUCCESS:
@@ -40,6 +43,7 @@ const authReducers = (state = initialState, action) => {
         ...state,
         user: action.payload.user,
         token: action.payload.token,
+        message: action.payload.message || null,
         isAuthenticated: true,
         loading: false,
         error: null,
@@ -51,6 +55,7 @@ const authReducers = (state = initialState, action) => {
         ...state,
         loading: false,
         error: null,
+        message: action.payload.message || null,
       };
 
     case types.REQUEST_PASSWORD_RESET_SUCCESS:
@@ -60,6 +65,7 @@ const authReducers = (state = initialState, action) => {
         error: null,
         resetCodeSent: true,
         email: action.payload.email,
+        message: action.payload.message || null,
       };
 
     case types.VERIFY_RESET_CODE_SUCCESS:
@@ -69,7 +75,7 @@ const authReducers = (state = initialState, action) => {
         error: null,
         resetCodeVerified: true,
         resetCode: action.payload.resetCode,
-        
+        message: action.payload.message || null,
       };
 
     case types.REGISTER_FAILURE:
@@ -83,7 +89,8 @@ const authReducers = (state = initialState, action) => {
         user: null,
         isAuthenticated: false,
         loading: false,
-        error: action.error,
+        
+        error: action.payload.error,
         resetCodeSent: false,
         resetCodeVerified: false,
       };
@@ -95,6 +102,7 @@ const authReducers = (state = initialState, action) => {
         isAuthenticated: false,
         loading: false,
         error: null,
+        message: null,
         resetCodeSent: false,
         resetCodeVerified: false,
       };

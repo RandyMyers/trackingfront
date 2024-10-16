@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://192.168.0.107:3200';// Replace with your server URL
+const BASE_URL = 'https://track-mk6l.onrender.com';
+//const BASE_URL = 'http://192.168.0.103:3200';
 
 // Register a new user
 export const registerUser = async (userData) => {
@@ -17,16 +18,23 @@ export const registerUser = async (userData) => {
 // Login a user
 export const loginUser = async (userData) => {
   try {
-
-    console.log(userData);
     const response = await axios.post(`${BASE_URL}/api/auth/login`, userData);
-    console.log(response.data);
     return response.data;
   } catch (error) {
-    console.error('Error logging in user:', error);
-    throw error;
+    if (error.response) {
+      //console.error('Error logging in user:', error.response.data);
+      throw new Error(error.response.data.message);
+    } else if (error.request) {
+      //console.error('Error logging in user:', error.request);
+      throw new Error('No response received from server');
+    } else {
+      //console.error('Error logging in user:', error.message);
+      throw new Error(error.message);
+    }
   }
 };
+
+
 
 // Change user password
 export const changePassword = async (passwordData) => {

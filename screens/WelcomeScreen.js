@@ -123,7 +123,7 @@ const WelcomeScreen = ({ navigation }) => {
       
       <LogoContainer> 
          <PackageIcon name="box" />
-         <LogoText>CouponDelight</LogoText>
+         <LogoText>Track4u</LogoText>
       </LogoContainer>
 
       <WelcomeText>Welcome to Package Tracker!</WelcomeText>
@@ -131,7 +131,7 @@ const WelcomeScreen = ({ navigation }) => {
       <PackageImage source={require('../images/package.jpg')} />
 
       <IntroductionText>
-        Track all your packages in one place and get real-time updates on their status.
+        Track all your packages in one place and get updates on their status.
       </IntroductionText>
       
       <ButtonContainer>

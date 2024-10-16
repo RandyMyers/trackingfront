@@ -101,7 +101,7 @@ const RegisterScreen = ({ navigation }) => {
     <RegisterScreenContainer>
       <LogoContainer>
         <PackageIcon name="box" />
-        <LogoText>TrackMate</LogoText>
+        <LogoText>Track4u</LogoText>
       </LogoContainer>
 
       <Title>Create an Account</Title>

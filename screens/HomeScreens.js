@@ -5,12 +5,16 @@ import AddPackage from '../components/home/AddPackage';
 import UpgradeModal from '../components/home/UpgradeModal';
 import RenewSubscriptionModal from '../components/home/renewSubscriptionModal';
 import { useNavigation } from '@react-navigation/native';
-import { Drawer } from 'react-native-paper';
-import DrawerMenu from '../components/home/DrawerMenu';
+//import { Drawer } from 'react-native-paper';
+//import DrawerMenu from '../components/home/DrawerMenu';
 import SubscriptionCard from '../components/subscription/SubscriptionCard';
 import { fetchUsedTracksAction } from '../store/actions/subscriptionActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { getNotificationsAction } from '../store/actions/notificationActions';
+import TestPushNotifications from '../push/TestPushNotification';
+import { usePushNotifications } from '../push/PushNotifications';
+import { updateUserAction } from '../store/actions/userActions';
+
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -22,15 +26,23 @@ const HomeScreen = () => {
   const remainingDays = useSelector((state) => state.subscription.remainingDays);
   const loading = useSelector((state) => state.subscription.loading);
   const error = useSelector((state) => state.subscription.error);
-
+  const { expoPushToken } = usePushNotifications();
   const [isUpgradeModalVisible, setIsUpgradeModalVisible] = useState(false);
   const [isRenewModalVisible, setIsRenewModalVisible] = useState(false);
+  
 
   console.log(usedTracks, allowedTracks, remainingDays, plan);
 
   useEffect(() => {
     if (userId) {
+      let userData ={
+        expoPushToken
+      }
+
       dispatch(fetchUsedTracksAction(userId));
+
+      console.log('send push notification',userData);
+      dispatch(updateUserAction(userId, userData));
 
     }
   }, [userId, dispatch]);
@@ -88,7 +100,7 @@ const HomeScreen = () => {
   }
 
   return (
-    <Drawer.Section drawerContent={<DrawerMenu />}>
+   <>
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.section}>
           <Text style={styles.title}>Usage Tracker</Text>
@@ -105,6 +117,7 @@ const HomeScreen = () => {
         <View style={styles.section}>
           <SubscriptionCard />
         </View>
+        
       </ScrollView>
 
       <UpgradeModal
@@ -115,7 +128,9 @@ const HomeScreen = () => {
         isVisible={isRenewModalVisible}
         onClose={() => setIsRenewModalVisible(false)}
       />
-    </Drawer.Section>
+    
+   </>
+      
   );
 };
 

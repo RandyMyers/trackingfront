@@ -1,7 +1,8 @@
 // paymentServices.js
 import axios from 'axios';
 
-const BASE_URL = 'http://192.168.0.107:3200';
+//const BASE_URL = 'https://track-mk6l.onrender.com';
+const BASE_URL = 'http://192.168.0.103:3200';
 
 // Get all payments
 export const getAllPayments = async () => {
@@ -82,9 +83,11 @@ export const capturePayPalPayment = async (paymentId, payerId, paypalId, payment
 // Update payment by ID
 export const updatePayment = async (paymentId, paymentData) => {
   try {
+    console.log(paymentData)
     const response = await axios.patch(`${BASE_URL}/api/payments/update/${paymentId}`, paymentData);
     return response.data;
   } catch (error) {
+    console.log(error);
     console.error(`Error updating payment for ${paymentId}:`, error);
     throw error;
   }
@@ -108,6 +111,19 @@ export const deletePayment = async (paymentId) => {
     return response.data;
   } catch (error) {
     console.error(`Error deleting payment for ${paymentId}:`, error);
+    throw error;
+  }
+};
+
+// Get payments by user ID
+export const getPaymentsByUser = async (userId) => {
+  try {
+
+    const response = await axios.get(`${BASE_URL}/api/payments/all/${userId}`);
+    console.log(response.data.payments)
+    return response.data.payments;
+  } catch (error) {
+    console.error(`Error fetching payments for user ${userId}:`, error);
     throw error;
   }
 };

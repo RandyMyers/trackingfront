@@ -189,3 +189,20 @@ export const selectPaymentGatewayAction = (gateway) => (dispatch) => {
     payload: gateway,
   });
 };
+
+export const fetchPaymentsByUserAction = (userId) => async (dispatch) => {
+  try {
+    dispatch({ type: paymentTypes.FETCH_PAYMENTS_BY_USER_REQUEST });
+    const payments = await paymentService.getPaymentsByUser(userId);
+    dispatch({
+      type: paymentTypes.FETCH_PAYMENTS_BY_USER_SUCCESS,
+      payload: payments,
+    });
+  } catch (error) {
+    console.error(`Error fetching payments for user ${userId}:`, error);
+    dispatch({
+      type: paymentTypes.FETCH_PAYMENTS_BY_USER_FAILURE,
+      error: error.message,
+    });
+  }
+};
