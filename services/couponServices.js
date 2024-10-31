@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-//const BASE_URL = 'http://192.168.0.103:3200';
+
 const BASE_URL = 'https://track-mk6l.onrender.com';
 
 // Get all coupons
